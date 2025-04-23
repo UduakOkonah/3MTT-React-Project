@@ -1,33 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import ListComponent from './ListComponent'; // Reusable list component
+// ListFetcher.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ListComponent from './ListComponent';
+import './ListFetcher.css'; 
 
 const ListFetcher = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [data, setData] = useState([]);
+  const [query, setQuery] = useState(""); // For search
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // ✅ Fetch with Axios
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setItems(data);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+        setData(response.data);
+        setError(null);
+      } catch (err) {
+        setError(err.message || "Something went wrong while fetching data.");
+      } finally {
         setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
-  if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // ✅ Filter data
+  const filteredData = data.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
 
-  return <ListComponent items={items} />;
+  return (
+    <div className="fetcher-container">
+      <h2 className="header-text">User List</h2>
+
+      <input
+        type="text"
+        placeholder="Search by name..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="search-input"
+      />
+
+      {loading && <p>Loading data...</p>}
+      {error && <p className="error">{error}</p>}
+
+      {!loading && !error && (
+        <ListComponent
+          items={filteredData}
+          renderItem={(item) => (
+            <>
+              <strong>{item.name}</strong> <br />
+              <em>{item.email}</em>
+            </>
+          )}
+        />
+      )}
+    </div>
+  );
 };
 
 export default ListFetcher;

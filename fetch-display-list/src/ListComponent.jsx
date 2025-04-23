@@ -1,13 +1,14 @@
+// ListComponent.jsx
 import React from 'react';
 
-const ListComponent = ({ items }) => {
-  if (items.length === 0) return <p>No items found.</p>;
+const ListComponent = ({ items, renderItem }) => {
+  if (items.length === 0) return <p>No items to display.</p>;
 
   return (
-    <ul>
-      {items.map(item => (
-        <li key={item.id}>
-          <strong>{item.name}</strong> – {item.email}
+    <ul className="list">
+      {items.map((item, index) => (
+        <li key={index} className="list-item">
+          {renderItem ? renderItem(item) : JSON.stringify(item)}
         </li>
       ))}
     </ul>

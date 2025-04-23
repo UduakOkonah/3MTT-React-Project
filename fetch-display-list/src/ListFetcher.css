@@ -1,0 +1,39 @@
+/* ListFetcher.css */
+.fetcher-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 2rem;
+    background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .header-text {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #d63384;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ffc0cb;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #ff69b4;
+  }
+  
+  .error {
+    color: #d9534f;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  

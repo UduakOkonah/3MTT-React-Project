@@ -1,3 +1,4 @@
+import './ListStyles.css';
 import React from 'react';
 import ListFetcher from './ListFetcher';
 
